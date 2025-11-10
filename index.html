@@ -1,87 +1,316 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nurick Travel — Путешествуй с нами</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nurick.com — Туристическое агентство</title>
+  <meta name="description" content="Nurick.com — комфортные туры, подбор по направлению и стоимости. Забронируй свой следующий отдых!" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+  <style>
+    :root{--accent:#0ea5a4;--dark:#0f172a;--muted:#6b7280;--card:#ffffff;--glass:rgba(255,255,255,0.06)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:linear-gradient(180deg,#f8fafc 0%, #eef2f7 100%);color:#071127}
+    header{position:sticky;top:0;backdrop-filter:blur(6px);background:rgba(255,255,255,0.6);border-bottom:1px solid rgba(15,23,42,0.04);z-index:40}
+    .container{max-width:1100px;margin:0 auto;padding:18px}
+    nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;color:var(--dark)}
+    .brand .logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+    .nav-links{display:flex;gap:14px;align-items:center}
+    .nav-links a{color:var(--dark);text-decoration:none;padding:8px;border-radius:8px;font-weight:600}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 460px;gap:28px;padding:48px 0;align-items:center}
+    .hero-left h1{font-size:36px;margin:0 0 12px;line-height:1.05}
+    .hero-left p{color:var(--muted);margin:0 0 18px}
+    .search-card{background:white;padding:18px;border-radius:14px;box-shadow:0 8px 24px rgba(16,24,40,0.06)}
+    .search-row{display:flex;gap:10px}
+    .input,select{flex:1;padding:12px;border:1px solid #e6e9ef;border-radius:10px}
+    .hero-right{border-radius:18px;overflow:hidden;box-shadow:0 12px 40px rgba(2,6,23,0.08)}
+    .hero-right img{width:100%;height:100%;object-fit:cover;display:block}
+
+    /* Tours */
+    .section{padding:36px 0}
+    .section h2{margin:0 0 14px}
+    .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(16,24,40,0.06);display:flex;flex-direction:column}
+    .card img{width:100%;height:150px;object-fit:cover}
+    .card-body{padding:12px;flex:1;display:flex;flex-direction:column;gap:8px}
+    .card .meta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+    .price{font-weight:800;color:var(--accent);font-size:18px}
+    .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{background:rgba(14,165,164,0.08);color:var(--accent);padding:6px 8px;border-radius:8px;font-weight:600;font-size:12px}
+
+    /* Footer */
+    footer{padding:28px 0;border-top:1px solid rgba(15,23,42,0.04);margin-top:28px}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.45);visibility:hidden;opacity:0;transition:opacity .18s ease,visibility .18s}
+    .modal.open{visibility:visible;opacity:1}
+    .modal-card{background:white;width:940px;max-width:96%;border-radius:12px;overflow:hidden;display:grid;grid-template-columns:1fr 380px}
+    .modal-card img{height:100%;width:100%;object-fit:cover}
+    .modal-body{padding:18px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    label{font-weight:700;font-size:13px}
+    input,textarea,select{padding:10px;border-radius:8px;border:1px solid #e6e9ef}
+
+    /* Responsive */
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .hero-right{order:-1;height:220px}
+      .modal-card{grid-template-columns:1fr}
+    }
+
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .row{display:flex;gap:12px}
+  </style>
 </head>
 <body>
-  <!-- Навигация -->
-  <header class="navbar">
-    <div class="logo">🌍 Nurick Travel</div>
-    <nav>
-      <a href="#about">О нас</a>
-      <a href="#tours">Туры</a>
-      <a href="#gallery">Галерея</a>
-      <a href="#contact">Контакты</a>
-    </nav>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand"><div class="logo">N</div><div>Nurick.com</div></div>
+        <div class="nav-links">
+          <a href="#tours">Туры</a>
+          <a href="#about">О нас</a>
+          <a href="#contacts">Контакты</a>
+          <a class="btn" href="#book">Забронировать</a>
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <!-- Главный экран -->
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Открой мир с Nurick Travel</h1>
-      <p>Организация незабываемых путешествий по всему миру</p>
-      <a href="#tours" class="btn">Смотреть туры</a>
-    </div>
-  </section>
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Открой мир вместе с Nurick.com</h1>
+        <p>Мы подберём идеальные туры по всему миру: от пляжного отдыха до активных приключений. Удобный поиск, прозрачные цены и помощь на каждом этапе.</p>
 
-  <!-- О нас -->
-  <section id="about" class="section">
-    <h2>О компании</h2>
-    <p>Nurick Travel — туристическое агентство, которое помогает людям открывать самые красивые уголки мира. Мы заботимся о вашем отдыхе с первого дня поездки до возвращения домой.</p>
-    <p>Наши эксперты подберут идеальное направление под ваш бюджет, пожелания и настроение!</p>
-  </section>
+        <div class="search-card" aria-hidden="false">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <strong>Подбор тура</strong>
+            <span class="muted">Найдено <span id="found-count">0</span> туров</span>
+          </div>
+          <div class="search-row">
+            <input id="q-dest" class="input" placeholder="Направление (страна, город)" />
+            <select id="q-type">
+              <option value="">Все типы</option>
+              <option value="beach">Пляжный</option>
+              <option value="adventure">Приключение</option>
+              <option value="city">Городской</option>
+            </select>
+            <button id="searchBtn" class="btn">Найти</button>
+          </div>
+        </div>
 
-  <!-- Туры -->
-  <section id="tours" class="section light">
-    <h2>Популярные туры</h2>
-    <div class="tour-grid">
-      <div class="tour-card">
-        <img src="images/tour1.jpg" alt="Тур в Париж">
-        <h3>Париж, Франция</h3>
-        <p>5 дней / 4 ночи — от 1200$</p>
+        <div style="margin-top:18px;display:flex;gap:12px">
+          <div style="flex:1;background:linear-gradient(90deg,#fff 0%, #f6fffd 100%);padding:12px;border-radius:12px;box-shadow:0 8px 24px rgba(6,95,87,0.06)">
+            <div style="font-weight:700">Горящие туры</div>
+            <div class="muted">Экономия до 30%</div>
+          </div>
+          <div style="width:140px;background:linear-gradient(90deg,#fff 0%, #f9f8ff 100%);padding:12px;border-radius:12px;text-align:center">
+            <div style="font-weight:700">Поддержка 24/7</div>
+            <div class="muted">В мессенджерах</div>
+          </div>
+        </div>
       </div>
-      <div class="tour-card">
-        <img src="images/tour2.jpg" alt="Тур на Мальдивы">
-        <h3>Мальдивы</h3>
-        <p>7 дней / 6 ночей — от 1800$</p>
+
+      <div class="hero-right" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80&auto=format&fit=crop" alt=" море " />
       </div>
-      <div class="tour-card">
-        <img src="images/tour3.jpg" alt="Тур в Казахстан">
-        <h3>Казахстан</h3>
-        <p>3 дня / 2 ночи — от 400$</p>
+    </section>
+
+    <section id="tours" class="section">
+      <h2>Популярные туры</h2>
+      <div class="filters">
+        <input id="filterPrice" placeholder="Макс. цена (KZT)" class="input" style="max-width:180px" />
+        <select id="filterDays" class="input" style="max-width:160px">
+          <option value="">Любая длительность</option>
+          <option value="3">До 3 дней</option>
+          <option value="7">До 7 дней</option>
+          <option value="14">До 14 дней</option>
+        </select>
+        <div style="margin-left:auto" class="muted">Сортировать: <select id="sortBy" style="margin-left:8px;padding:8px;border-radius:8px;border:1px solid #e6e9ef"><option value="popular">Популярные</option><option value="price-asc">Цена ↑</option><option value="price-desc">Цена ↓</option></select></div>
       </div>
-    </div>
-  </section>
 
-  <!-- Галерея -->
-  <section id="gallery" class="section">
-    <h2>Галерея путешествий</h2>
-    <div class="gallery">
-      <img src="images/gallery1.jpg" alt="Фото 1">
-      <img src="images/gallery2.jpg" alt="Фото 2">
-      <img src="images/gallery3.jpg" alt="Фото 3">
-      <img src="images/gallery4.jpg" alt="Фото 4">
-    </div>
-  </section>
+      <div id="grid" class="grid"></div>
+    </section>
 
-  <!-- Контакты -->
-  <section id="contact" class="section light">
-    <h2>Свяжитесь с нами</h2>
-    <p>Заполните форму, и мы свяжемся с вами в ближайшее время!</p>
+    <section id="about" class="section">
+      <h2>О нас</h2>
+      <p class="muted">Nurick.com — команда профессионалов в туризме с многолетним опытом. Мы подбираем туры, которые соответствуют вашему бюджету и ожиданиям, решаем вопросы логистики и обеспечиваем поддержку 24/7 во время поездки.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px">
+        <div style="background:white;padding:16px;border-radius:12px">Наши услуги: подбор туров, визовая поддержка, страховка, трансфер.</div>
+        <div style="background:white;padding:16px;border-radius:12px">Почему мы: прозрачные цены, офлайн-офисы, гибкая оплата, персональные менеджеры.</div>
+      </div>
+    </section>
 
-    <form action="https://formspree.io/f/maypqxyz" method="POST" class="contact-form">
-      <input type="text" name="Имя" placeholder="Ваше имя" required>
-      <input type="text" name="Контакт" placeholder="Телефон или Email" required>
-      <textarea name="Сообщение" placeholder="Ваше сообщение"></textarea>
-      <button type="submit" class="btn">Отправить</button>
-    </form>
-  </section>
+    <section id="contacts" class="section">
+      <h2>Контакты</h2>
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:18px">
+        <div style="background:white;padding:16px;border-radius:12px">
+          <p><strong>Офис:</strong> Алматы, Казахстан</p>
+          <p><strong>Тел.:</strong> +7 (700) 000-0000</p>
+          <p><strong>Email:</strong> info@nurick.com</p>
+
+          <h3 id="book">Оставить заявку</h3>
+          <form id="contactForm">
+            <div class="field"><label>Имя</label><input required type="text" name="name" /></div>
+            <div class="field"><label>Телефон или email</label><input required type="text" name="contact" /></div>
+            <div class="field"><label>Комментарий</label><textarea name="msg"></textarea></div>
+            <div style="margin-top:8px"><button class="btn" type="submit">Отправить</button></div>
+          </form>
+        </div>
+
+        <div style="background:white;padding:16px;border-radius:12px;text-align:center">
+          <div style="font-weight:700">Рабочие часы</div>
+          <div class="muted">Пн-Пт 9:00 — 19:00</div>
+          <div style="height:12px"></div>
+          <div style="font-weight:700">Мы в соцсетях</div>
+          <div class="muted">Telegram • Instagram • WhatsApp</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <footer>
-    <p>© 2025 Nurick Travel. Все права защищены.</p>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center">
+      <div>© <strong>Nurick.com</strong> — 2025. Все права защищены.</div>
+      <div class="muted">Создано для туристического агентства</div>
+    </div>
   </footer>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-card">
+      <div>
+        <img id="modal-img" src="" alt="preview" />
+      </div>
+      <div class="modal-body">
+        <h3 id="modal-title">Заголовок тура</h3>
+        <div class="muted" id="modal-meta">Продолжительность • Страна</div>
+        <p id="modal-desc" style="margin-top:12px">Описание тура…</p>
+        <div style="margin-top:14px" class="row">
+          <div style="flex:1"><div class="price" id="modal-price">0 KZT</div><div class="muted">Цена за человека</div></div>
+          <div style="width:180px"><button id="openBook" class="btn">Забронировать</button></div>
+        </div>
+
+        <div style="margin-top:14px">
+          <button id="closeModal" style="background:none;border:none;color:var(--muted);font-weight:700;cursor:pointer">Закрыть</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Пример данных — замени или расширь с бекендом
+    const tours = [
+      {id:1,title:'Пляжный отдых — Турция, Анталия',type:'beach',days:7,price:270000,country:'Турция',img:'https://images.unsplash.com/photo-1502920917128-1aa500764b6f?w=1200',desc:'Отдых на песчаных пляжах, проживание 4-звезды, перелёт включён.'},
+      {id:2,title:'Приключение в Грузии — горы и треккинг',type:'adventure',days:5,price:150000,country:'Грузия',img:'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200',desc:'Треккинг по красивым тропам Кавказа, ночёвки в гестхаусах.'},
+      {id:3,title:'Уикенд в Стамбуле — городские туры',type:'city',days:3,price:85000,country:'Турция',img:'https://images.unsplash.com/photo-1543349684-0b4d0d6b0c67?w=1200',desc:'Культурная программа, экскурсии и дегустация местной кухни.'},
+      {id:4,title:'Пляжный отдых — Мальдивы (люкс)',type:'beach',days:10,price:980000,country:'Мальдивы',img:'https://images.unsplash.com/photo-1501769214405-5e86c0e4f5d2?w=1200',desc:'Райский отдых в бунгало над водой, включено питание и трансфер.'},
+      {id:5,title:'Приключенческий сафари — Кения',type:'adventure',days:8,price:540000,country:'Кения',img:'https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=1200',desc:'Сафари по национальным паркам, наблюдение за дикой природой.'}
+    ];
+
+    const grid = document.getElementById('grid');
+    const foundCount = document.getElementById('found-count');
+
+    function formatPrice(v){ return v.toLocaleString('ru-RU') + ' KZT' }
+
+    function render(list){
+      grid.innerHTML='';
+      list.forEach(t => {
+        const el = document.createElement('div'); el.className='card';
+        el.innerHTML = `
+          <img src="${t.img}" alt="${t.title}" />
+          <div class="card-body">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div style="flex:1"><strong>${t.title}</strong><div class="muted" style="font-size:13px">${t.country} • ${t.days} дней</div></div>
+              <div style="text-align:right"><div class="price">${formatPrice(t.price)}</div><div class="muted" style="font-size:12px">/чел</div></div>
+            </div>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center">
+              <div class="tags"><div class="tag">${t.type}</div></div>
+              <div style="display:flex;gap:8px"><button class="btn btn-details" data-id="${t.id}">Подробнее</button></div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(el);
+      });
+      foundCount.textContent = list.length;
+      // attach handlers
+      document.querySelectorAll('.btn-details').forEach(btn=>btn.addEventListener('click', openModal));
+    }
+
+    function openModal(e){
+      const id = +e.currentTarget.dataset.id; const t = tours.find(x=>x.id===id);
+      if(!t) return;
+      document.getElementById('modal-img').src = t.img;
+      document.getElementById('modal-title').textContent = t.title;
+      document.getElementById('modal-meta').textContent = `${t.days} дней • ${t.country}`;
+      document.getElementById('modal-desc').textContent = t.desc;
+      document.getElementById('modal-price').textContent = formatPrice(t.price);
+      document.getElementById('modal').classList.add('open');
+      document.getElementById('modal').setAttribute('aria-hidden','false');
+    }
+    document.getElementById('closeModal').addEventListener('click', ()=>{
+      document.getElementById('modal').classList.remove('open');
+      document.getElementById('modal').setAttribute('aria-hidden','true');
+    });
+    document.getElementById('modal').addEventListener('click', (ev)=>{ if(ev.target.id==='modal') { document.getElementById('modal').classList.remove('open'); } });
+
+    // Filters & search
+    function applyFilters(){
+      const qDest = document.getElementById('q-dest').value.trim().toLowerCase();
+      const type = document.getElementById('q-type').value;
+      const maxPrice = parseInt(document.getElementById('filterPrice').value) || Infinity;
+      const days = document.getElementById('filterDays').value;
+      const sort = document.getElementById('sortBy').value;
+
+      let out = tours.filter(t=>{
+        if(type && t.type!==type) return false;
+        if(qDest && !(t.country.toLowerCase().includes(qDest) || t.title.toLowerCase().includes(qDest))) return false;
+        if(t.price>maxPrice) return false;
+        if(days && t.days>parseInt(days)) return false;
+        return true;
+      });
+
+      if(sort==='price-asc') out.sort((a,b)=>a.price-b.price);
+      if(sort==='price-desc') out.sort((a,b)=>b.price-a.price);
+
+      render(out);
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', applyFilters);
+    document.getElementById('filterPrice').addEventListener('input', applyFilters);
+    document.getElementById('filterDays').addEventListener('change', applyFilters);
+    document.getElementById('q-type').addEventListener('change', applyFilters);
+    document.getElementById('sortBy').addEventListener('change', applyFilters);
+
+    // Booking flow (simple demo)
+    document.getElementById('openBook').addEventListener('click', ()=>{
+      const title = document.getElementById('modal-title').textContent;
+      const price = document.getElementById('modal-price').textContent;
+      const name = prompt('Введите ваше имя');
+      const contact = prompt('Введите телефон или email');
+      if(!name || !contact) return alert('Имя и контакт обязательны');
+      alert('Заявка принята!\nТур: '+title+'\n'+price+'\nНаш менеджер свяжется с вами.');
+      document.getElementById('modal').classList.remove('open');
+    });
+
+    // Contact form demo — отправка через fetch к твоему API или mailto
+    document.getElementById('contactForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = new FormData(e.target);
+      // Здесь можно отправить на сервер. Пока — показ примера
+      alert('Спасибо! Заявка отправлена.\nМы свяжемся: ' + data.get('contact'));
+      e.target.reset();
+    });
+
+    // init
+    render(tours);
+  </script>
 </body>
 </html>
